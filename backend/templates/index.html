@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Support Chatbot</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .chat-container { width: 400px; margin: 50px auto; }
+        .chat-box { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll; }
+        .chat-input { width: calc(100% - 60px); padding: 10px; margin-top: 10px; }
+        button { width: 50px; padding: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="chat-box" id="chat-box"></div>
+    <input type="text" id="user-input" class="chat-input" placeholder="Enter your query">
+    <button onclick="sendMessage()">Send</button>
+</div>
+
+<script>
+async function sendMessage() {
+    const input = document.getElementById('user-input').value;
+    const chatBox = document.getElementById('chat-box');
+    
+    // Add user message to the chat
+    chatBox.innerHTML += `<p><strong>You:</strong> ${input}</p>`;
+    
+    // Send message to the backend
+    const response = await fetch('/chat', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({query: input})
+    });
+    const data = await response.json();
+    
+    // Add bot response to the chat
+    chatBox.innerHTML += `<p><strong>Bot:</strong> ${data.response}</p>`;
+    
+    // Clear input
+    document.getElementById('user-input').value = '';
+}
+</script>
+
+</body>
+</html>

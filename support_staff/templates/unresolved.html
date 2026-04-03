@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Staff Panel</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .query { border-bottom: 1px solid #ccc; padding: 10px; }
+    </style>
+</head>
+<body>
+
+<h1>Unresolved Queries</h1>
+
+{% for query in unresolved_queries %}
+    <div class="query">
+        <p><strong>Customer Query:</strong> {{ query.customer_query }}</p>
+        <form method="POST">
+            <input type="hidden" name="query_id" value="{{ query.id }}">
+            <textarea name="response" placeholder="Enter your response"></textarea>
+            <button type="submit">Submit Response</button>
+        </form>
+    </div>
+{% endfor %}
+
+</body>
+</html>
